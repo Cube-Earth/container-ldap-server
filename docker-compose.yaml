@@ -7,8 +7,7 @@ services:
             - http_proxy
             - https_proxy
             - no_proxy
-#    image: cubeearth/ldap-server
-    image: 192.168.216.108:5000/ldap-server
+    image: cubeearth/ldap-server
     ports:
       - 3389:389
     volumes:
