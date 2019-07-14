@@ -1,0 +1,80 @@
+dn: dc=k8s
+dc: k8s
+objectClass: dcObject
+objectClass: domain
+objectClass: top
+
+dn: cn=manager,dc=k8s
+cn: manager
+objectClass: organizationalRole
+
+dn: ou=users,dc=k8s
+ou: users
+objectClass: organizationalUnit
+
+dn: ou=groups,dc=k8s
+ou: groups
+objectClass: organizationalUnit
+
+dn: uid=roadrunner, ou=users,dc=k8s
+objectClass: top
+objectClass: account
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: roadrunner
+uid: roadrunner
+uidNumber: 2001
+gidNumber: 1010
+homeDirectory: /home/roadrunner
+loginShell: /bin/bash
+gecos: roadrunner
+userPassword: {crypt}x
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0
+
+dn: uid=admin, ou=users,dc=k8s
+objectClass: top
+objectClass: account
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: admin
+uid: admin
+uidNumber: 2002
+gidNumber: 1010
+homeDirectory: /home/admin
+loginShell: /bin/bash
+gecos: admin
+userPassword: {crypt}x
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0
+
+dn: uid=daywalker, ou=users,dc=k8s
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: daywalker
+sn: daywalker
+description: Fictional person for example purposes
+userpassword: {sha}dkfljlk34r2kljdsfk9
+
+
+dn: cn=admin_posix,ou=groups,dc=k8s
+objectClass: posixGroup
+gidNumber: 1010
+cn: admin_posix
+description: admin group
+memberuid: road runner
+memberuid: admin
+
+dn: cn=admin,ou=groups,dc=k8s
+objectClass: groupofnames
+cn: admin
+description: admin group
+member: cn=road runner,ou=users,dc=k8s
+member: cn=admin,ou=users,dc=k8s
+member: cn=daywalker,ou=users,dc=k8s
+
+

@@ -1,0 +1,46 @@
+dn: dc=k8s
+dc: k8s
+objectClass: dcObject
+objectClass: domain
+objectClass: top
+
+dn: cn=manager,dc=k8s
+cn: manager
+objectClass: organizationalRole
+
+dn: ou=users,dc=k8s
+ou: users
+objectClass: organizationalUnit
+
+dn: ou=groups,dc=k8s
+ou: groups
+objectClass: organizationalUnit
+
+dn: uid=roadrunner, ou=users,dc=k8s
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: roadrunner
+sn: roadrunner
+description: roadrunner
+userpassword: {sha}dkfljlk34r2kljdsfk9
+
+dn: uid=admin, ou=users,dc=k8s
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: admin
+sn: admin
+description: Admin user
+userpassword: {sha}dkfljlk34r2kljdsfk9
+
+dn: cn=admin,ou=groups,dc=k8s
+objectClass: groupofnames
+cn: admin
+description: admin group
+member: cn=road runner,ou=users,dc=k8s
+member: cn=admin,ou=users,dc=k8s
+
+

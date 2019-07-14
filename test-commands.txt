@@ -1,0 +1,10 @@
+Test commands to be run inside LDAP server container:
+=====================================================
+
+ldapsearch -LLL -b cn=config objectClass=olcMdbConfig olcSuffix
+
+Does not work since SSL is required:
+ldapsearch -LLL -h localhost -p 389 -D cn=Manager,cn=config -w $(curl -Ls https://pod-cert-server/pwd/root) -x -b cn=config objectClass=olcMdbConfig olcSuffix
+
+ldapsearch -LLL -h ldap -p 389 -D cn=Manager,cn=config -w $(curl -Ls https://pod-cert-server/pwd/root) -x -ZZ -b cn=config objectClass=olcMdbConfig olcSuffix
+

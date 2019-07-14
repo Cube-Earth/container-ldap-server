@@ -1,0 +1,15 @@
+version: '3'
+services:
+  main:
+    build:
+        context: .
+        args:
+            - http_proxy
+            - https_proxy
+            - no_proxy
+#    image: cubeearth/ldap-server
+    image: 192.168.216.108:5000/ldap-server
+    ports:
+      - 3389:389
+    volumes:
+      - ./ldif:/ldif

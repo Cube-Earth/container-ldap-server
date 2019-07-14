@@ -1,0 +1,120 @@
+dn: cn=config
+objectClass: olcGlobal
+cn: config
+olcAttributeOptions: lang-
+olcConfigDir: /etc/opt/openldap/slapd.d
+olcPidFile: /run/openldap/slapd.pid
+olcTLSCACertificateFile: /certs/root-ca.cer
+olcTLSCertificateFile: /certs/server.cer
+olcTLSCertificateKeyFile: /certs/server.key
+#olcTLSVerifyClient: never
+olcLogLevel: stats
+#olcSecurity: simple_bind=128
+olcSecurity: ssf=128 update_ssf=128 simple_bind=128
+olcLocalSSF: 128
+
+
+dn: cn=module,cn=config
+objectClass: olcModuleList
+cn: module
+olcModulepath:	/usr/lib/openldap
+olcModuleload:	back_monitor.so
+#olcModuleload:	back_ldap.so
+olcModuleload:	back_mdb.so
+
+dn: cn=schema,cn=config
+objectClass: olcSchemaConfig
+cn: schema
+
+include: file:///etc/openldap/schema/core.ldif
+include: file:///etc/openldap/schema/cosine.ldif
+include: file:///etc/openldap/schema/duaconf.ldif
+include: file:///etc/openldap/schema/inetorgperson.ldif
+include: file:///etc/openldap/schema/ppolicy.ldif
+include: file:///etc/openldap/schema/openldap.ldif
+include: file:///etc/openldap/schema/java.ldif
+include: file:///etc/openldap/schema/nis.ldif
+
+dn: olcDatabase={-1}frontend,cn=config
+objectClass: olcDatabaseConfig
+objectClass: olcFrontendConfig
+olcDatabase: {-1}frontend
+olcAccess: {0}to attrs=userPassword
+  by self =xw
+  by anonymous auth
+  by * none
+olcAccess: {1}to * by * read
+olcSizelimit: size.soft=10000 size.hard=1000000
+olcTimelimit: time.soft=300 time.hard=3600
+
+dn: olcDatabase={0}config,cn=config
+objectClass: olcDatabaseConfig
+olcDatabase: {0}config
+olcRootDN: cn=Manager,cn=config
+olcRootPW: {SSHA}brmTo8MoFt5BGiNcqDboRh3eU6sX7qOO
+olcMonitoring: FALSE
+olcAccess: {0}to * by dn.exact=gidNumber=0+uidNumber=0,cn=peercred,cn=external
+ ,cn=auth manage by * break
+olcAccess: {1}to dn.subtree="cn=schema,cn=config"
+  by users read
+olcAccess: {2}to * by * none
+
+dn: olcDatabase={1}monitor,cn=config
+objectClass: olcDatabaseConfig
+olcDatabase: {1}monitor
+olcAddContentAcl: FALSE
+olcLastMod: TRUE
+olcMaxDerefDepth: 15
+olcReadOnly: FALSE
+olcSyncUseSubentry: FALSE
+olcMonitoring: FALSE
+olcAccess: {3}to dn.subtree="cn=monitor"
+  by dn.exact="cn=Manager,cn=config" read
+  by dn.exact="cn=Manager,dc=example,dc=com" read
+  by * none
+
+dn: olcDatabase={2}mdb,cn=config
+objectClass: olcDatabaseConfig
+objectClass: olcMdbConfig
+olcDatabase: {2}mdb
+olcMonitoring: TRUE
+olcSuffix: dc=k8s
+olcRootDN: cn=Manager,dc=k8s
+olcRootPW: secret
+olcDbDirectory:	/var/lib/openldap/openldap-data
+olcDbMaxSize: 42949672960
+olcDbIndex: objectClass pres,eq
+olcDbIndex: cn pres,eq,sub
+olcDbIndex: uid pres,eq
+olcDbIndex: uidNumber pres,eq
+olcDbIndex: gidNumber pres,eq
+olcDbIndex: mail pres,eq,sub
+olcDbIndex: ou pres,eq
+olcDbIndex: sn pres,eq,sub
+olcDbIndex: givenName pres,eq,sub
+olcDbIndex: entryCSN eq
+olcDbIndex: entryUUID eq
+olcSecurity: ssf=0 update_ssf=0 simple_bind=0
+olcAccess: {0}to * by dn.exact=gidNumber=0+uidNumber=0,cn=peercred,cn=external
+ ,cn=auth manage by * break
+olcAccess: {1}to attrs=userPassword
+  by dn.exact="cn=Manager,dc=k8s" write
+  by dn.exact="cn=Replicator,dc=k8s" read
+  by self =xw
+  by anonymous auth
+  by * none
+olcAccess: {2}to * by * read
+olcLimits: {0}dn.exact="cn=Manager,dc=k8s"
+  size.soft=unlimited size.hard=unlimited
+  time.soft=unlimited time.hard=unlimited
+olcLimits: {1}dn.exact="cn=Replicator,dc=k8s"
+  size.soft=unlimited size.hard=unlimited
+  time.soft=unlimited time.hard=unlimited
+
+#dn: olcOverlay=ppolicy,olcDatabase={2}mdb,cn=config
+#objectClass: olcOverlayConfig
+#objectClass: olcPPolicyConfig
+#olcOverlay: ppolicy
+#olcPPolicyDefault: cn=default,ou=pwpolicies,dc=k8s
+#olcPPolicyHashCleartext: TRUE
+#olcPPolicyUseLockout: FALSE
