@@ -13,6 +13,7 @@ spec:
     metadata:
       annotations:
         ssl-cert.server  : "server:ldap"
+	pwd.shared: "ldap-root"
       labels:
         app: ldap-server
     spec:

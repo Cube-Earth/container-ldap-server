@@ -17,10 +17,11 @@ olcLocalSSF: 128
 dn: cn=module,cn=config
 objectClass: olcModuleList
 cn: module
-olcModulepath:	/usr/lib/openldap
-olcModuleload:	back_monitor.so
+olcModulepath: /usr/lib/openldap
+olcModuleload: back_monitor.so
 #olcModuleload:	back_ldap.so
-olcModuleload:	back_mdb.so
+olcModuleload: back_mdb.so
+olcModuleLoad: memberof.so
 
 dn: cn=schema,cn=config
 objectClass: olcSchemaConfig
@@ -118,3 +119,13 @@ olcLimits: {1}dn.exact="cn=Replicator,dc=k8s"
 #olcPPolicyDefault: cn=default,ou=pwpolicies,dc=k8s
 #olcPPolicyHashCleartext: TRUE
 #olcPPolicyUseLockout: FALSE
+
+dn: olcOverlay={0}memberof,olcDatabase={2}mdb,cn=config
+objectClass: olcOverlayConfig
+objectClass: olcMemberOf
+olcOverlay: {0}memberof
+olcMemberOfDangling: ignore
+olcMemberOfRefInt: TRUE
+olcMemberOfGroupOC: groupOfUniqueNames
+olcMemberOfMemberAD: uniqueMember
+olcMemberOfMemberOfAD: memberOf

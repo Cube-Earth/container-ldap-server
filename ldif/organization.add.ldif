@@ -37,10 +37,8 @@ description: Admin user
 userpassword: {sha}dkfljlk34r2kljdsfk9
 
 dn: cn=admin,ou=groups,dc=k8s
-objectClass: groupofnames
+objectClass: groupOfUniqueNames
 cn: admin
-description: admin group
-member: cn=road runner,ou=users,dc=k8s
-member: cn=admin,ou=users,dc=k8s
-
-
+description: Admin group
+uniqueMember: uid=roadrunner,ou=users,dc=k8s
+uniqueMember: uid=admin,ou=users,dc=k8s
