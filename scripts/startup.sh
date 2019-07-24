@@ -16,7 +16,7 @@ if [[ "$initialize" = "true" ]]
 then
 	if [[ -z "${SLAPD_PASSWORD-}" ]]
 	then
-		SLAPD_PASSWORD=$(slappasswd -s $(curl -Ls https://pod-cert-server/pwd/root))
+		SLAPD_PASSWORD=$(slappasswd -s $(curl -Ls https://pod-cert-server/pwd/ldap-root))
 	fi
 	
 	if [[ -f /ldif/slapd.init.ldif ]]
