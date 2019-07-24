@@ -11,7 +11,7 @@ function process() {
 	if(match(dn, "uid *= *[^,]+")) {
 		u=substr(dn,RSTART,RLENGTH);
 		u=trim(substr(u, index(u, "=")+1))
-		system("echo -n 'userpassword: '; slappasswd -s `curl -Ls https://pod-cert-server/pwd/" u "`")
+		system("echo -n 'userpassword: '; slappasswd -s `curl -Ls https://pod-cert-server/pwd/ldap-" u "`")
 	}
 }
 
